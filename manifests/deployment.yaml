@@ -60,6 +60,8 @@ spec:
               key: GIT_TOKEN
         - name: POLICY_NAME
           value: "rust"
+        - name: LOCAL_KUBE
+          value: true
         - name: CONFIG_NAME 
           value: "img-updater-config"
         - name: GIT_URL 
