@@ -1,0 +1,33 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: img-updater-2
+  labels:
+    app: img-updater-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: img-updater-2
+  template:
+    metadata:
+      labels:
+        app: img-updater-2
+    spec:
+      serviceAccountName: img-updater
+      containers:
+      - name: img-updater
+        image: ghcr.io/dodbham-gitops/img-updater-bot:main-42478c35-1650271582
+        env:
+        - name: KUBECONFIG 
+          valueFrom:
+            secretKeyRef:
+              name: kubeconfig
+              key: KUBECONFIG
+        - name: POLICY_NAME
+          value: "rust"
+        - name: CONFIG_NAME 
+          value: "img-updater-config"
+        - name: GIT_URL 
+          value: "https://github.com"

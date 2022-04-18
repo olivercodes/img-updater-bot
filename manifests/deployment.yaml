@@ -46,7 +46,7 @@ spec:
       serviceAccountName: img-updater
       containers:
       - name: img-updater
-        image: ghcr.io/dodbham-gitops/img-updater-bot:main-f63c8dd4-1650270432
+        image: ghcr.io/dodbham-gitops/img-updater-bot:main-42478c35-1650271582
         env:
         - name: KUBECONFIG 
           valueFrom:
