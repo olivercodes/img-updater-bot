@@ -151,7 +151,7 @@ const configFileName = process.env.CONFIG_NAME; // image-updater-config
     const remote = await repo.getRemote('origin');
     const ref = "refs/heads/golden-image-" + imageTag + ":refs/heads/golden-image-" + imageTag;
 
-    const [pushErr, push] = await to(remote.push([ref]));
+    const [pushErr, push] = await to(remote.push([ref], opts));
     if (pushErr) {
       console.error(`Failed to push branch ${branch.name()}: ${pushErr}`);
       return;
