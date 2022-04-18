@@ -1,7 +1,7 @@
 import to from 'await-to-js';
 import fs     from 'fs';
 import path   from 'path';
-import { Clone, CloneOptions, Repository, Signature } from 'nodegit';
+import { Clone, CloneOptions, Repository, Signature, Cred } from 'nodegit';
 import rimraf from 'rimraf';
 import { findRemoteRef, processLineByLine, parseYaml, getRepos } from './lib/helpers';
 import { resolvePolicy, resolveConfig } from './lib/k8s_helpers';
@@ -75,7 +75,7 @@ const configFileName = process.env.CONFIG_NAME; // image-updater-config
       fetchOpts: {
         callbacks: {
           credentials: function() {
-            return nodegit.Cred.userpassPlaintextNew(GIT_TOKEN, "x-oauth-basic");
+            return Cred.userpassPlaintextNew(GIT_TOKEN, "x-oauth-basic");
           },
           certificateCheck: function() {
             return 1;
