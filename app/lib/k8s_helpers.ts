@@ -41,7 +41,7 @@ export async function resolveConfig(configName, namespace) {
 
   if (err) {
     throw new Error(`Failed to fetch the configmap ${configName}, set LOG_LEVEL to debug for more info`);
-    console.debug(err);
+    console.log(err);
   }
 
   return configMap.body.data["config.yaml"];
