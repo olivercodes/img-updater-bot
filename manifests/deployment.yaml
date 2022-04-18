@@ -21,7 +21,7 @@ spec:
         - name: KUBECONFIG 
           valueFrom:
             secretKeyRef:
-              name: img-updater-kubeconfig
+              name: kubeconfig
               key: KUBECONFIG
         - name: POLICY_NAME
           value: "rust"
