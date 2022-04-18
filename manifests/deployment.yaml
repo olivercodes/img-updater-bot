@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: img-updater
-        image: ghcr.io/dodbham-gitops/img-updater:TO_BE_REPLACED
+        image: ghcr.io/dodbham-gitops/img-updater-bot:TO_BE_REPLACED
         env:
         - name: KUBECONFIG 
           valueFrom:
