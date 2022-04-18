@@ -1,0 +1,64 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: node-bitnami 
+  namespace: flux-system
+spec:
+  image: bitnami/node
+  interval: 60s
+  accessFrom:
+    namespaceSelectors:
+      - matchLabels:
+          kubernetes.io/metadata.name: flux-system
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: node
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: node-bitnami
+    namespace: flux-system
+  policy:
+    semver:
+      range: '>=16.0.0 <17.0.0'
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: node-14
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: node-bitnami
+    namespace: flux-system
+  policy:
+    semver:
+      range: '>=14.0.0 <15.0.0'
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: rust
+  namespace: flux-system
+spec:
+  image: docker.io/rust 
+  interval: 60s
+  accessFrom:
+    namespaceSelectors:
+      - matchLabels:
+          kubernetes.io/metadata.name: flux-system
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: rust 
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: rust 
+    namespace: flux-system
+  policy:
+    semver:
+      range: '>=1.59 <2.0'

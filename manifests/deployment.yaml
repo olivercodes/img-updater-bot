@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: img-updater
+  labels:
+    app: img-updater
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: img-updater
+  template:
+    metadata:
+      labels:
+        app: img-updater
+    spec:
+      containers:
+      - name: img-updater
+        image: ghcr.io/dodbham-gitops/img-updater:TO_BE_REPLACED
+        env:
+        - name: KUBECONFIG 
+          valueFrom:
+            secretKeyRef:
+              name: img-updater-kubeconfig
+              key: KUBECONFIG
+        - name: POLICY_NAME
+          value: "rust"
+        - name: CONFIG_NAME 
+          value: "img-updater-config"
+        - name: GIT_URL 
+          value: "https://github.com"

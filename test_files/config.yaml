@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: image-updater-config
+  namespace: flux-system
+data:
+  config.yaml: |
+    repos:
+      rust:
+      - olivercodes/chalupa-bot
+      - olivercodes/chalupa-bot-test
+      # node-alpine:
+      # - some/repo
+    github:
+      link_url: https://github.com
+
