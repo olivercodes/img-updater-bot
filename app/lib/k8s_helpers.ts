@@ -3,7 +3,8 @@ import { V1ConfigMap } from '@kubernetes/client-node';
 import { to } from 'await-to-js';
 
 const kc = new k8s.KubeConfig();
-kc.loadFromDefault();
+// kc.loadFromDefault();
+kc.loadFromCluster();
 const k8sCrd = kc.makeApiClient(k8s.CustomObjectsApi);
 const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
 
