@@ -53,6 +53,11 @@ spec:
             secretKeyRef:
               name: kubeconfig
               key: KUBECONFIG
+        - name: GIT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: git-token
+              key: GIT_TOKEN
         - name: POLICY_NAME
           value: "rust"
         - name: CONFIG_NAME 

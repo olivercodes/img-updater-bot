@@ -1,7 +1,7 @@
 import to from 'await-to-js';
 import fs     from 'fs';
 import path   from 'path';
-import { Clone, Repository, Signature } from 'nodegit';
+import { Clone, CloneOptions, Repository, Signature } from 'nodegit';
 import rimraf from 'rimraf';
 import { findRemoteRef, processLineByLine, parseYaml, getRepos } from './lib/helpers';
 import { resolvePolicy, resolveConfig } from './lib/k8s_helpers';
@@ -69,7 +69,22 @@ const configFileName = process.env.CONFIG_NAME; // image-updater-config
     // Make sure the tmp is empty
     rimraf.sync(repoTmpLocation);
 
-    const [repoCloneError, clonedRepo] = await to( Clone.clone(git_url + "/" + repoName, repoTmpLocation) );
+   
+    const GIT_TOKEN = process.env.GIT_TOKEN;
+    var opts = {
+      fetchOpts: {
+        callbacks: {
+          credentials: function() {
+            return nodegit.Cred.userpassPlaintextNew(GIT_TOKEN, "x-oauth-basic");
+          },
+          certificateCheck: function() {
+            return 1;
+          }
+        }
+      }
+    };
+
+    const [repoCloneError, clonedRepo] = await to( Clone.clone(git_url + "/" + repoName, repoTmpLocation, opts) );
     if (repoCloneError) {
       console.error('Failed to clone the repo: ', repoCloneError);
       return; // Exit current iteration
