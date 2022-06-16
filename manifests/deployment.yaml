@@ -27,40 +27,37 @@ roleRef:
   name: config-reader
   apiGroup: rbac.authorization.k8s.io
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: CronJob
 metadata:
   name: img-updater
   labels:
     app: img-updater
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: img-updater
-  template:
-    metadata:
-      labels:
-        app: img-updater
+  schedule: "* * * * *"
+  jobTemplate:
     spec:
-      serviceAccountName: img-updater
-      containers:
-      - name: img-updater
-        image: ghcr.io/dodbham-gitops/img-updater-bot:main-42478c35-1650271582
-        env:
-        - name: KUBECONFIG 
-          valueFrom:
-            secretKeyRef:
-              name: kubeconfig
-              key: KUBECONFIG
-        - name: GIT_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: git-token
-              key: GIT_TOKEN
-        - name: POLICY_NAME
-          value: "rust"
-        - name: CONFIG_NAME 
-          value: "img-updater-config"
-        - name: GIT_URL 
-          value: "https://github.com"
+      template:
+        spec:
+          serviceAccountName: img-updater
+          restartPolicy: OnFailure
+          containers:
+          - name: img-updater
+            image: ghcr.io/dodbham-gitops/img-updater-bot:main-42478c35-1650271582
+            env:
+            - name: KUBECONFIG 
+              valueFrom:
+                secretKeyRef:
+                  name: kubeconfig
+                  key: KUBECONFIG
+            - name: GIT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: git-token
+                  key: GIT_TOKEN
+            - name: POLICY_NAME
+              value: "rust"
+            - name: CONFIG_NAME 
+              value: "img-updater-config"
+            - name: GIT_URL 
+              value: "https://github.com"
